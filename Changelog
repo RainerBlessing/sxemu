@@ -1,0 +1,33 @@
+0.03 - 20.08.05
+
+- bugs in the command interpreter were removed
+
+
+0.04 - 22.08.05
+
+- run/walk mode
+- breakpoints
+- mnemonics are displayed instead of the raw memory
+
+
+0.05 - 28.08.05
+
+- several bugfixes
+- the emulated program can be restarted
+
+
+0.06 - 04.09.05
+
+- lots of bugfixes in the command interpreter
+  (most of the commands should be error free)
+- rtcc is working  
+- 'R' resets the emulated program
+
+
+0.07 - 26.09.05
+
+- some bugfixes (rl,dc flag)
+- SRAM access works
+- cursor follows pc
+- screen layout changed
+

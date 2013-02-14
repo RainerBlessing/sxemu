@@ -1,0 +1,16 @@
+This is an SX52/XGS emulator/debugger.
+
+Requires: Scons and ncurses
+
+Instructions:
+- Load a hex file (assembled SX52 sourcecode) e.g.: ./sxemu tut001.hex
+
+Keys:
+TAB - Toggle between RAM and ROM
+Page UP/DOWN and Cursor Keys - Browse memory
+Space - Execute current command
+Return - Quit
+b - Set breakpoint
+r - Run 
+w - Walk (2 commands per second)
+R - reset

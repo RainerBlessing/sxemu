@@ -1,0 +1,4 @@
+*.swp
+*.o
+sxemu
+.sconsign.dblite

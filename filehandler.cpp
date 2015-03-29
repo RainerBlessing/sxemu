@@ -16,6 +16,7 @@
 * =====================================================================================
 */
 
+#include <string.h>
 #include "filehandler.h"
 
 bool FileHandler::readFile( char *fn, u16 * rom )

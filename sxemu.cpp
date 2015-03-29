@@ -1,11 +1,10 @@
 using namespace std;
-#include <unistd.h>
+#include    <unistd.h>
 #include 	<pthread.h>
 #include	<iostream>
-#include	<iomanip>
 #include 	<curses.h>
 #include	"filehandler.h"
-#include 	<string>
+#include 	<string.h>
 #include	"cpu.h"
 
 /*-----------------------------------------------------------------------------

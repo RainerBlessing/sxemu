@@ -11,7 +11,7 @@
 *        Compiler:  gcc
 * 
 *          Author:  Rainer Blessing 
-*           Email:  rainer@theblessing.net
+*           Email:  rainer.blessing@gmail.com
 * 
 * =====================================================================================
 */

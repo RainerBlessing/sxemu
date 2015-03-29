@@ -12,7 +12,7 @@
 * 
 *          Author:  Rainer Blessing 
 *         Company:  
-*           Email:  rainer@theblessing.net
+*           Email:  rainer.blessing@gmail.com
 * 
 * =====================================================================================
 */

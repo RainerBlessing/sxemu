@@ -10,15 +10,13 @@
 *        Revision:  none
 *        Compiler:  gcc
 * 
-*          Author:  Rainer Blessing (), rainer@theblessing.net
+*          Author:  Rainer Blessing (), rainer.blessing@gmail.com
 *         Company:  
 * 
 * =====================================================================================
 */
 #include <string.h>
 #include <sstream>
-#include <string>
-//#include "Windows.h"
 
 using namespace std;
 #include "cpu.h"
@@ -1661,7 +1659,7 @@ void Cpu::sram()
 		}
 		active = true;
 	}
-	if (((*rc >> 6)&1) == 1 && active == true)
+	if (((*rc >> 6)&1) == 1 && active)
 	{ // chipenable=1
 		page = 0;
 		active = false;

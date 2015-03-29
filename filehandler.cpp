@@ -10,7 +10,7 @@
 *        Revision:  none
 *        Compiler:  gcc
 * 
-*          Author:  Rainer Blessing (), rainer@theblessing.net
+*          Author:  Rainer Blessing (), rainer.blessing@gmail.com
 *         Company:  
 * 
 * =====================================================================================

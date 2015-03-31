@@ -2,6 +2,8 @@ This is an SX52/XGS emulator/debugger.
 
 Requires: Scons or CMake and ncurses
 
+CMake: create Makefile by running "cmake ."
+
 Instructions:
 - Load a hex file (assembled SX52 sourcecode) e.g.: ./sxemu tut001.hex
 

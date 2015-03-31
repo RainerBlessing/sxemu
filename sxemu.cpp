@@ -113,7 +113,7 @@ main (int argc, char *argv[])
 	delwin (mainwin);
 	endwin();
 	running = false;
-	if (walkthread != NULL)pthread_join( walkthread, NULL);
+	if (walkthread != 0)pthread_join( walkthread, 0);
 	return EXIT_SUCCESS;
 }				// ----------  end of function main  ----------
 

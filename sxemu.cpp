@@ -37,17 +37,17 @@ pthread_t walkthread;
 
 void *run(void *Arg)
 {
-	while (running == true)
+	while (running)
 	{
 		romr = 35 * (*pc);
 		cursorrow = romr / 35;
-		if (cpu.execute() == false )
+		if (!cpu.execute())
 		{
 			running = false;
 			break;
 		}
 		if (*(char*)Arg == 'w' )usleep(500000);
-		if (breakpoint[*pc] == true)
+		if (breakpoint[*pc])
 		{
 			running = false;
 			break;
@@ -63,17 +63,20 @@ main (int argc, char *argv[])
 
 	RAM = cpu.getRAM();
 	ROM = cpu.getROM();
+
 	if (argc < 2)
 	{
 		printf("Usage: sxemu <hexfile>\n");
 		printf("e.g. \"./sxemu file.hex\"\n");
+
 		return EXIT_FAILURE;
 	}
 	fh.readFile (argv[1], ROM);
 	if ((mainwin = initscr ()) == NULL)
 	{
 		fprintf (stderr, "Error initialising ncurses.\n");
-		exit (EXIT_FAILURE);
+
+		return EXIT_FAILURE;
 	}
 
 	noecho();
@@ -82,9 +85,10 @@ main (int argc, char *argv[])
 	nodelay(stdscr, true);
 	keypad (mainwin, TRUE);
 	getmaxyx(stdscr, row, col);
-	romwin = subwin (mainwin, row, 27, 0, 0);
-	ramwin = subwin (mainwin, row / 2, 54, row / 2 + 1, 27);
-	sidewin = subwin (mainwin, row / 2, 54, 0, 27);
+
+	romwin = subwin (mainwin, row, 26, 0, 0);
+	ramwin = subwin (mainwin, row / 2, col-26, 0 , 26);
+	sidewin = subwin (mainwin, row / 2, col-26, row / 2, 26);
 
 	cursorrow = 0;
 	ramr = romr = 0;
@@ -98,11 +102,11 @@ main (int argc, char *argv[])
 	init_pair(1, COLOR_BLACK, COLOR_GREEN);
 	init_pair(2, COLOR_RED, COLOR_BLACK);
 
-	string impl = "";
+	//string impl = "";
 	while (1)
 	{
 		screen();
-		if (keys() == false)break;
+		if (!keys())break;
 	}
 	delete[] ramptr;
 	delete[] romptr;
@@ -114,6 +118,7 @@ main (int argc, char *argv[])
 	endwin();
 	running = false;
 	if (walkthread != 0)pthread_join( walkthread, 0);
+
 	return EXIT_SUCCESS;
 }				// ----------  end of function main  ----------
 
@@ -134,7 +139,7 @@ void screen()
 		{
 			mvchgat(1 + j, 0 , 4, A_REVERSE, 1, NULL);
 		}
-		if (breakpoint[romr / 35 + j] == true)
+		if (breakpoint[romr / 35 + j])
 		{
 			mvchgat(1 + j, 5 , 1, A_REVERSE, 2, NULL);
 		}
@@ -232,7 +237,7 @@ bool keys()
 			ch = 0;
 			break;
 			case 32:      // space
-			if (running == false)
+			if (!running)
 			{
 				if (cpu.lookup() == "END")
 				{
@@ -252,7 +257,7 @@ bool keys()
 			{
 				cpu.reset();
 			}
-			if (running == false)
+			if (!running)
 			{
 				running = true;
 				char m = 'r';
@@ -269,7 +274,7 @@ bool keys()
 			{
 				cpu.reset();
 			}
-			if (running == false)
+			if (!running)
 			{
 				running = true;
 				char m = 'w';
@@ -278,10 +283,7 @@ bool keys()
 			else running = false;
 			break;
 			case 'b':
-			if (breakpoint[cursorrow] != true)
-				breakpoint[cursorrow] = true;
-			else
-				breakpoint[cursorrow] = false;
+				breakpoint[cursorrow] = !breakpoint[cursorrow];
 			break;
 	}
 	if (ch == 0) return false;

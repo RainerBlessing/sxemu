@@ -6,6 +6,7 @@ using namespace std;
 #include	"filehandler.h"
 #include 	<string.h>
 #include	"cpu.h"
+#include	"disasm.h"
 
 /*-----------------------------------------------------------------------------
  *  function main
@@ -15,9 +16,11 @@ void dumpMem(char *dump, USHORT* mem, USHORT size);
 void dumpRAM(char *dump, unsigned char* mem, USHORT size);
 void screen();
 bool keys();
+bool atEnd();
+string lookup();
 void run();
 
-Cpu cpu;
+Cpu cpu(NULL); // no screen: the debugger shows the memory
 WINDOW *mainwin, *romwin, *ramwin, *sidewin;
 string impl = "";
 unsigned char* romptr;
@@ -41,11 +44,12 @@ void *run(void *Arg)
 	{
 		romr = 35 * (*pc);
 		cursorrow = romr / 35;
-		if (!cpu.execute())
+		if (atEnd())
 		{
 			running = false;
 			break;
 		}
+		cpu.execute();
 		if (*(char*)Arg == 'w' )usleep(500000);
 		if (breakpoint[*pc])
 		{
@@ -125,7 +129,7 @@ main (int argc, char *argv[])
 void screen()
 {
 	int row, col;
-	impl = cpu.lookup();
+	impl = lookup();
 	getmaxyx(stdscr, row, col);
 	erase();
 	mvwprintw(ramwin, 1, 1, "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f");
@@ -239,7 +243,7 @@ bool keys()
 			case 32:      // space
 			if (!running)
 			{
-				if (cpu.lookup() == "END")
+				if (atEnd())
 				{
 					cpu.reset();
 				}
@@ -253,7 +257,7 @@ bool keys()
 			else awin = 0;
 			break;
 			case 'r':
-			if (cpu.lookup() == "END")
+			if (atEnd())
 			{
 				cpu.reset();
 			}
@@ -270,7 +274,7 @@ bool keys()
 			cpu.reset();
 			break;
 			case 'w':
-			if (cpu.lookup() == "END")
+			if (atEnd())
 			{
 				cpu.reset();
 			}
@@ -307,7 +311,7 @@ void dumpMem(char *dump, USHORT* mem, USHORT size)
 	{
 		sprintf (dump + k, "%03X: ", i);
 		k += 5;
-		string cmd = cpu.lookup(mem[i] & 0xfff);
+		string cmd = disassemble(mem[i] & 0xfff);
 		sprintf (dump + k, "%s", cmd.c_str() );
 		k += cmd.length();
 		sprintf (dump + j, "\n");
@@ -332,4 +336,16 @@ void dumpRAM(char *dump, unsigned char* mem, USHORT size)
 		}
 		sprintf (dump + k - 1, "\n");
 	}
+}
+
+// 0xfff is an empty ROM cell: the program has run to its end.
+bool atEnd()
+{
+	return ROM[*cpu.getPC()] == 0xfff;
+}
+
+string lookup()
+{
+	if (atEnd()) return "END";
+	return disassemble(ROM[*cpu.getPC()]);
 }

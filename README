@@ -4,6 +4,9 @@ Requires: Scons or CMake and ncurses
 
 CMake: create Makefile by running "cmake ."
 
+The CPU is the git submodule sxcpu, shared with xgsemu. Clone with
+"git clone --recurse-submodules" or run "git submodule update --init".
+
 Instructions:
 - Load a hex file (assembled SX52 sourcecode) e.g.: ./sxemu tut001.hex
 
